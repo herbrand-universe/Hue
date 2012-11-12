@@ -1,0 +1,26 @@
+# Definiciones logicas
+def and   is (Prop -> Prop -> Prop) = λA:Prop.λB:Prop.ΠC:Prop.(A -> B -> C) -> C
+def or    is (Prop -> Prop -> Prop) = λA:Prop.λB:Prop.ΠC:Prop.(A -> C) -> (B -> C) -> C
+def false is Prop                   = ΠA:Prop.A
+def true  is Prop                   = ΠA:Prop.A -> A
+def not   is (Prop -> Prop)         = λA:Prop.A -> false
+
+# Naturales
+var Nat is Prop
+var Z   is Nat
+var S   is (Nat -> Nat)
+
+def eqNat is (Nat -> Nat -> Prop)   = λq:Nat.λp:Nat.ΠP:(Nat -> Prop). (P q) -> (P p)
+def Eq is (ΠA:Prop. A -> A -> Prop) = λA:Prop.λq:A.λp:A.ΠP:(A -> Prop). (P q) -> (P p)
+
+
+var recNat is ΠP:(Nat -> Prop).(P Z) -> (Πn:Nat. (P n) -> (P (S n))) -> (Πn:Nat. (P n))
+
+
+def Nat  is Prop = ΠA:Prop.A -> (A -> A) -> A
+def Zero is Nat = λA:Prop.λx:A.λf:(A -> A).x
+def Suc  is Nat -> Nat = λn:Nat.λA:Prop.λx:A.λf:(A -> A).f (n A x f)
+  
+def Bool  is Prop = ΠA:Prop.A -> A -> A
+def true  is Bool = λA:Prop.λx:A.λy:A.x
+def false is Bool = λA:Prop.λx:A.λy:A.y

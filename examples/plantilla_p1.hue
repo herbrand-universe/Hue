@@ -1,0 +1,340 @@
+
+
+
+def and   is (Prop -> Prop -> Prop) = λA:Prop.λB:Prop.ΠC:Prop.(A -> B -> C) -> C;
+def or    is (Prop -> Prop -> Prop) = λA:Prop.λB:Prop.ΠC:Prop.(A -> C) -> (B -> C) -> C;
+def false is Prop                   = ΠA:Prop.A;
+def true  is Prop                   = ΠA:Prop.A -> A;
+def not   is (Prop -> Prop)         = λA:Prop.A -> false;
+
+(* Practica 1 *)
+
+var A is Prop;
+var B is Prop;
+var C is Prop;
+
+(* Ej 1.1 *)
+proof e11 is A->A;
+  intro;
+  assumption;
+qed;
+
+(*
+def e11 is A->A = λx0:A.x0;*)
+
+(* Ej 1.2 *)
+proof e12 is A->B->A;
+  intro H1;
+  intro H2;
+  assumption;
+qed;
+
+(*
+def e12 is A->B->A = λx0:A.λx1:B.x0;*)
+
+(* Ej 1.3 *)
+proof e13 is (A->(B->C))->(A->B)->(A->C);
+  intro H0;
+  intro H1;
+  intro H2;
+  exact (H0 H2 (H1 H2));
+  
+  (* Se rompe si apply es (a -> b -> c) y el goal es c 
+  apply H0;
+  assumption;
+  apply H1;
+  assumption;*)
+qed;
+(*
+def e13 is (A->(B->C))->(A->B)->(A->C) = λx0:A -> B -> C.λx1:A -> B.λx2:A.x0 x2 (x1 x2);
+*)
+
+(*Ej 2.1 *)
+proof e21 is (A->B)->(B->C)->A->C;
+  intro H0;
+  intro H1;
+  intro H2;
+  apply H1;
+  apply H0;
+  assumption;
+qed;
+
+def e21 is (A->B)->(B->C)->A->C = λx0:A -> B.λx1:B -> C.λx2:A.x1 (x0 x2);
+
+(*Ej 2.2 *)
+proof e22 is (A->B->C)->B->A->C;
+  intro H0;
+  intro H1;
+  intro H2;
+  apply (H0 H2);
+  assumption;
+qed;
+
+def e22 is (A->B->C)->B->A->C = λx0:A -> B -> C.λx1:B.λx2:A.x0 x2 x1;
+
+
+(*Ej 3.1 *)
+proof e31 is A->A->A;
+  intro;
+  intro;
+  assumption;
+qed;
+
+def e31 is  A->A->A = λx0:A.λx1:A.x1;
+
+(* Ej 3.2 *)
+proof e32 is (A->B->C)->A->(A->C)->B->C;
+  intro H0;
+  intro H1;
+  intro H2;
+  intro H3;
+  exact (H2 H1);
+qed;
+
+def e32 is (A->B->C)->A->(A->C)->B->C = λx0:A -> B -> C.λx1:A.λx2:A -> C.λx3:B.x2 x1;
+
+(* VER ¬¬
+(* Ej 4.1 *)
+proof e41 is A -> ¬¬A;
+  intro HA;
+  unfold not;
+  intro HB;
+  exact (HB HA);
+qed; *)
+
+(* Ej 4.2 *)
+proof e42 is (A -> B -> (A /\ B));
+  intro;
+  intro HB;
+  split; 
+  assumption;
+  assumption;
+qed;
+
+def e42 is (A -> B -> (A /\ B)) = λx0:A.λx1:B.λx2:Prop.λx3:A -> B -> x2.x3 x0 x1;
+
+(* Ej 4.3 *)
+proof e43 is (A->B->C) -> (A/\B->C);
+  intro H0;
+  intro H1;
+  apply (H1 C);
+  assumption;
+qed;
+
+def e43 is (A->B->C) -> (A/\B->C) = λx0:A -> B -> C.λx1:A /\ B.x1 C x0;
+
+
+(* Ej 4.4 *)
+proof e44 is A->(A\/B);
+  intro H0;
+  left;
+  assumption;
+qed;
+
+
+def e44 is A->(A\/B) = λx0:A.λx1:Prop.λx2:A -> x1.λx3:B -> x1.x2 x0;
+
+(* Ej 4.5 *)
+proof e45 is B->(A\/B);
+  intro H0;
+  right;
+  assumption;
+qed;
+
+def e45 is B->(A\/B) = λx0:B.λx1:Prop.λx2:A -> x1.λx3:B -> x1.x3 x0;
+
+(* Ej 4.6 *)
+proof e46 is (A \/ B) -> (B \/ A);
+  intro H0;
+  elim H0;
+  intro H1;
+  right;
+  assumption;
+  intro H2;
+  left;
+  assumption;
+qed;
+
+
+(* Ej 4.7 *)
+proof e47 is (A->C)->(B->C)->A\/B->C;
+  intro H0;
+  intro H1;
+  intro H2;
+  elim H2;
+  exact H0;
+  exact H1;
+qed;
+
+(* Ej 4.8 *)
+proof e48 is False->A;
+  intro;
+  elim H;
+qed;
+
+
+
+(* Ej 5.1 *)
+proof e51 is (A->B)-> ~B-> ~A;
+  intro H0;
+  intro H1;
+  unfold not;
+  intro H2;
+  apply H1;
+  apply (H0 H2);
+qed;
+
+
+
+(* Ej 5.2 *)
+proof e52 is ~(A/\~A);
+  unfold not;
+  intro H0;
+  elim H0;
+  intro H1;
+  intro H2;
+  apply (H2 H1);
+qed;
+
+(* Ej 5.3 *)
+proof e53 is (A->B)-> ~(A/\~B);
+  intro H0;
+  unfold not;
+  intro H1;
+  elim H1;
+  intro H2;
+  intro H3;
+  apply (H3 (H0 H2));
+qed;
+
+
+
+(* Ej 5.4 *)
+proof e54 is (A/\B)->~(A->~B);
+  intro H0;
+  unfold not;
+  intro H1;
+  elim H0;
+  assumption;
+qed;
+
+(* Ej 5.5 *)
+proof e55 is (~A /\ ~~A) -> False;
+  intro H0;
+  elim H0;
+  intro H1;
+  intro H2;
+  unfold not in H1;
+  unfold not in H2;
+  exact (H2 H1);
+qed;
+
+
+
+(* Ej 6.1 *)
+proof e61 is (A\/B) -> ~(~A/\~B);
+  intro H0;
+  unfold not;
+  elim H0;
+  intro H1;
+  intro H2;
+  elim H2;
+  intro H3;
+  intro H4;
+  apply (H3 H1);
+  intro H3;
+  intro H4;
+  elim H4;
+  intro H5;
+  intro H6;
+  apply (H6 H3);
+qed;
+
+
+(* Ej 6.2 *)
+proof e62 is A\/B <-> B\/A;
+  unfold iff;
+  split;
+  apply e46;
+  intro H0;
+  elim H0;
+  apply e45;
+  apply e44;
+qed;
+
+(* Ej 6.3 *)
+proof e63 is A\/B -> ((A->B)->B);
+  intro H0;
+  elim H0;
+  intro HA;
+  intro HAB;
+  apply (HAB HA);
+  intro HB;
+  intro HAB;
+  assumption;
+qed;
+
+
+;
+;
+
+
+
+Section Logica_Clasica.
+Variables A B C: Prop.
+
+(* Ej 7.1 *)
+Theorem e71: A \/ ~A -> ~~A->A.
+Proof.
+intro H0.
+elim H0.
+intros.
+assumption.
+intros H1 H2.
+unfold not in H1.
+unfold not in H2.
+cut (False -> A).
+intro H3.
+apply (H3 (H2 H1)).
+intro H4.
+elim H4.
+Qed.
+
+(* Ej 7.2 *)
+Theorem e72: A\/~A -> ((A->B) \/ (B->A)).
+Proof.
+intro H0.
+elim H0.
+intro HA.
+right.
+intro.
+assumption.
+intro HNA.
+unfold not in HNA.
+left.
+intro H1.
+cut False.
+intro HF.
+elim HF.
+apply (HNA H1).
+Qed.
+
+(* Ej 7.3 *)
+Theorem e73: (A \/ ~A) -> ~(A /\ B) -> ~A \/ ~B.
+Proof.
+intros H0 H1.
+unfold not in H1.
+elim H0.
+intro HA.
+right.
+unfold not.
+intro HB.
+apply H1.
+split; assumption.
+intro.
+left.
+assumption.
+Qed.
+
+
+*)

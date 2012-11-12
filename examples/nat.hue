@@ -1,0 +1,60 @@
+
+
+
+var Nat is Prop;
+var Z   is Nat;
+var Suc is Nat -> Nat;
+
+(*var rec is ΠP:(Nat -> Prop).(P Z) -> (Πn:Nat. (P n) -> (P (Suc n))) -> (Πn:Nat. (P n));*)
+def eq is (Nat -> Nat -> Prop) = λq:Nat.λp:Nat.ΠP:(Nat -> Prop). (P q) -> (P p);
+
+
+
+proof refl is (Πx:Nat.eq x x);
+  intro;
+  intro;
+  intro;
+  assumption;
+qed;
+
+(*def refl is (Πx:Nat.eq x x) = λx0:Nat.λx1:Nat -> Prop.λx2:x1 x0.x2;*)
+
+(*hasta aca llegue*)
+
+proof sim is (Π x:Nat.Πy:Nat. (eq x y) -> (eq y x));
+  intro;
+  intro;
+  intro;
+  apply (H2 (λN:Nat.eq N H0)); 
+  exact (refl H0);
+qed;
+
+proof trans is (Πa:Nat.Πb:Nat.Πc:Nat.(eq a b) -> (eq b c) -> (eq a c));
+  intro;
+  intro;
+  intro;
+  intro;
+  intro;
+  intro;
+  intro;
+  apply H4 H5;
+  apply H3 H5;
+  assumption;
+qed;
+
+def false is Prop                   = ΠA:Prop.A;
+def not   is (Prop -> Prop)         = λA:Prop.A -> false;
+
+proof aux is not (eq Z (Suc Z));
+  intro;
+  intro;
+  
+  
+qed;
+
+proof chan is (Πx:Nat.not (eq Z (Suc x)));
+  intro;
+  admit;
+qed;
+
+

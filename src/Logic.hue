@@ -1,0 +1,3 @@
+def and   is (Prop -> Prop -> Prop) = λA:Prop.λB:Prop.ΠC:Prop.(A -> B -> C) -> C;
+def false is Prop                   = ΠA:Prop.A;
+def true  is Prop                   = ΠA:Prop.A -> A;

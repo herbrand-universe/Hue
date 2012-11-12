@@ -1,0 +1,37 @@
+
+
+(*Deberia hacer el A parametrico y no como una constante *)
+var A is Prop;
+
+def Eq is (A -> A -> Prop) = λq:A.λp:A.ΠP:(A -> Prop). (P q) -> (P p);
+
+(* Eq es una relacion de equivalencia *)
+
+proof refl is (Πx:A.Eq x x);
+  intro;
+  intro;
+  intro;
+  assumption;
+qed;
+
+
+proof sim is (Πx:A. Πy:A. (Eq x y) -> (Eq y x));
+  intro;
+  intro;
+  intro;
+  apply (H2 (λN:A.Eq N H0)); 
+  exact (refl H0);
+qed;
+
+proof trans is (Πa:A.Πb:A.Πc:A.(Eq a b) -> (Eq b c) -> (Eq a c));
+  intro;
+  intro;
+  intro;
+  intro;
+  intro;
+  intro;
+  intro;
+  apply H4 H5;
+  apply H3 H5;
+  assumption;
+qed;
