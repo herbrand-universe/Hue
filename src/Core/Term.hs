@@ -78,7 +78,7 @@ subsV :: CoCT -> String -> CoCT -> CoCT
 subsV (PropT) _ _    = PropT
 subsV (IdT n) _ _    = IdT n
 subsV (VarT n') n t  | n' == n   =  t
-	             | otherwise = (VarT n')
+                     | otherwise = (VarT n')
 subsV (AppT s t) n m = AppT (subsV s n m) (subsV t n m)
 subsV (PiT s t) n m  = PiT  (subsV s n m) (subsV t n m)
 subsV (LamT s t) n m = LamT (subsV s n m) (subsV t n m)
@@ -94,7 +94,7 @@ subsVI (TypeT) _ _    = TypeT
 subsVI (PropT) _ _    = PropT
 subsVI (IdT n) _ _    = IdT n
 subsVI (VarT n') n t  | n' == n   =  IdT t
- 	              | otherwise = (VarT n')
+                      | otherwise = (VarT n')
 subsVI (AppT s t) n m = AppT (subsVI s n m) (subsVI t n m)
 subsVI (PiT s t) n m  = PiT  (subsVI s n m) (subsVI t n (m + 1))
 subsVI (LamT s t) n m = LamT (subsVI s n m) (subsVI t n (m + 1))
@@ -118,7 +118,7 @@ asubs k (TypeT) _ _     = TypeT
 asubs k (PropT) _ _     = PropT
 asubs k (VarT n) _ _    = VarT n
 asubs k (IdT n') n t    | n' == n   =  upId k 0 t
- 		        | otherwise = (IdT n')
+                        | otherwise = (IdT n')
 asubs k (AppT s t) n m  = AppT (asubs k s n m) (asubs k t n m)
 asubs k (PiT s t) n m   = PiT (asubs k s n m) (asubs (k + 1) t (n + 1) m)
 asubs k (LamT  s t) n m = LamT (asubs k s n m) (asubs (k + 1) t (n + 1) m)

@@ -17,8 +17,8 @@ whnf c PropT      = NAtom (AProp)
 whnf c TypeT      = NAtom (AType)
 whnf c (LamT s t) = NLam s t
 whnf c (AppT m n) = case whnf c m of 
-			NLam _ t -> whnf c (app t n)  
-			NAtom t  -> NAtom (AApp t n)
+            NLam _ t -> whnf c (app t n)  
+            NAtom t  -> NAtom (AApp t n)
 
 
 convA :: Context -> Atom -> Atom -> Bool

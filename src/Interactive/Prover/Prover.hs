@@ -1,5 +1,3 @@
-{-# OPTIONS_GHC -fglasgow-exts #-}
-
 module Interactive.Prover.Prover(replProver) where
 
 import Text.Parsec hiding (State)

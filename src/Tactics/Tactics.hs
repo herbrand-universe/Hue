@@ -1,4 +1,3 @@
-{-# OPTIONS_GHC -fglasgow-exts #-}
 module Tactics.Tactics(appTactic, runTactic) where
 {-----------------------------------------------------------------------------
   Para crear una nueva tactica 'foo [args]' deberiamos:
@@ -15,7 +14,7 @@ module Tactics.Tactics(appTactic, runTactic) where
 ------------------------------------------------------------------------------}
 
 import Data.Maybe
-import Control.Monad.Error
+import Control.Monad.Except
 import Data.List
 
 import Core.API
@@ -218,4 +217,4 @@ appTactic tac t  = do g <- currentGoal t
                       return $ updateGoal t tac as
 
 runTactic :: [String] -> TacticState a -> (Either String a, [String])
-runTactic ss s = (runUnique (runErrorT (unT s)) ss)
+runTactic ss s = (runUnique (runExceptT (unT s)) ss)

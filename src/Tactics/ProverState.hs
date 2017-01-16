@@ -1,5 +1,5 @@
-{-# OPTIONS_GHC -fglasgow-exts #-}
-
+{-# LANGUAGE DeriveFunctor #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Tactics.ProverState(Tactic(..),Goal,Tree,TacticState,currentGoal,updateGoal,
                    emptyTree,runUnique,unT,fresh,Proof(..),proof,getType,getName) where
 
@@ -8,8 +8,8 @@ import Format.Pretty
 import Control.Monad
 import Control.Monad.State
 import Control.Monad.Identity
-import Control.Monad.Error
-import Control.Monad.Trans
+import Control.Monad.Except
+import Control.Monad.Trans.Except
 
 
 
@@ -41,10 +41,25 @@ instance Show Tree where
 
 
  
-newtype UniqueT m a = UniqueT (StateT [String] m a) deriving (Functor, Monad, MonadTrans, MonadIO)
-                                      
-newtype Unique a = Unique (UniqueT Identity a) deriving (Functor, Monad, MonadUnique)
- 
+newtype UniqueT m a = UniqueT (StateT [String] m a) deriving ( Monad, MonadTrans, MonadIO)
+
+instance (Monad m) => Applicative (UniqueT m) where
+    pure = return
+    (<*>) = ap 
+
+instance (Monad m) => Functor (UniqueT m) where
+    fmap = liftM
+
+newtype Unique a = Unique (UniqueT Identity a) deriving (Monad, MonadUnique)
+
+instance Applicative (Unique) where
+    pure = return
+    (<*>) = ap
+
+instance Functor (Unique) where
+    fmap = liftM
+
+
 class Monad m => MonadUnique m where
     fresh :: m String
      
@@ -58,7 +73,15 @@ runUnique (Unique s) ss = runIdentity (runUniqueT s ss)
 
 type ProverState = Unique Tree
 
-newtype TacticState a = T { unT :: ErrorT String Unique a } deriving (Functor, Monad)
+newtype TacticState a = T { unT :: ExceptT String Unique a } deriving (Monad)
+
+instance Applicative (TacticState) where
+    pure = return
+    (<*>) = ap
+
+instance Functor (TacticState) where
+    fmap = liftM
+
 
 instance MonadUnique TacticState where
   fresh = T $ lift fresh
