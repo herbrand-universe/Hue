@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{proof}
+
+\begin{document}
+
+\title{Introduction to \LaTeX{}}
+\author{Author's Name}
+
+\maketitle
+
+\begin{abstract}
+The abstract text goes here.
+\end{abstract}
+
+\section{Hue}
+
+
+\subsection{Terminos}
+\subsection{Reduccion}
+\subsection{Contextos}
+\subsection{Typechecker}
+~\cite{Jutting93checkingalgorithms}
+~\cite{Benthem:93}
+~\cite{DBLP:conf/types/JuttingMP93}
+
+\begin{equation}
+    \label{simple_equation}
+\infer[\mathrm{Srtnsd}]
+{\vdash s_{1} : s_{2}}{}
+\end{equation}
+
+\begin{equation}
+    \label{simple_equation}
+\infer[\mathrm{Varnsd}]
+{\Gamma, x:A \vdash_{nsd} x : A}{\Gamma \vdash A :\twoheadrightarrow s}
+\end{equation}
+
+\begin{equation}
+    \label{simple_equation}
+\infer[\mathrm{Wknsd}]
+{\Gamma, x:A \vdash_{nsd} b : B}{\Gamma \vdash_{nsd} b : B & \Gamma \vdash A :\twoheadrightarrow s}
+\end{equation}
+
+\begin{equation}
+    \label{simple_equation}
+\infer[\mathrm{Pinsd}]
+{\Gamma \vdash_{nsd} \Pi x:A.B :s_{3}}{\Gamma \vdash A :\twoheadrightarrow s_{1} & \Gamma, x:A \vdash_{nsd} B :\twoheadrightarrow s_{2}}
+\end{equation}
+
+\begin{equation}
+    \label{simple_equation}
+\infer[\mathrm{Ldansd}]
+{\Gamma \vdash_{nsd} \lambda x:A.b :\Pi x:A.B}{\Gamma \vdash A :\twoheadrightarrow s_{1} & \Gamma, x:A \vdash_{nsd} b:\twoheadrightarrow B & \Gamma, x:A \vdash_{nsd} B :\twoheadrightarrow s_{2}}
+\end{equation}
+
+\begin{equation}
+    \label{simple_equation}
+\infer[\mathrm{Appnsd}]
+{\Gamma \vdash_{nsd} a\ b : A[x:=b]}{\Gamma \vdash a :\twoheadrightarrow \Pi x:A.B & \Gamma \vdash_{nsd} b:\twoheadrightarrow B }
+\end{equation}
+
+
+\section{Conclusion}
+Write your conclusion here.
+
+
+\bibliography{doc}{}
+\bibliographystyle{plain}
+\end{document}
