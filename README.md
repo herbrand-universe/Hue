@@ -40,6 +40,12 @@ Tacticas:
 - elim ;
 - unfold ;
 
+Uso stack:
+---
+```bash
+stack build
+stack exec Hue
+```
 
 
 Hue proof-assistant
