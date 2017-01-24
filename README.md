@@ -16,6 +16,19 @@ Lenguaje:
 - proof < name > is < Term >;
 - qed;
 
+Terminos (Tipos)
+---
+
+```haskell
+
+data CoCT = 
+  |  asds
+  |  sad
+ * __\lambda__
+ * __(M N)__
+ * __(M N)__
+```
+
 Tacticas:
 ---
 - intro ;
