@@ -44,9 +44,13 @@ Uso stack:
 ---
 ```bash
 stack build
+```
+para compilar el proyecto.
+
+```bash
 stack exec Hue
 ```
-
+para ejecutar Hue en el directorio actual.
 
 Hue proof-assistant
 
