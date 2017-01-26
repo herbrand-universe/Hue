@@ -5,10 +5,18 @@
 \usepackage{amssymb}
 \usepackage{proof}
 
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[section]
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{lemma}[theorem]{Lema}
+\theoremstyle{remark}
+\newtheorem*{remark}{Convencion}
+
 \begin{document}
 
-\title{Introduction to \LaTeX{}}
-\author{Author's Name}
+\title{Manual de Hue}
+\author{Nicolas Cabral}
 
 \maketitle
 
@@ -17,6 +25,65 @@ The abstract text goes here.
 \end{abstract}
 
 \section{Hue}
+
+  Es un asistente de pruebas basados en el Calculo de Construccions $\lambda C$
+
+
+\section{PTS: Pure Type System}
+
+\begin{definition}
+Un PTS $\mathcal{P} $ esta definido por $\{ \mathcal{S}, \mathcal{V}, \mathcal{A}, \mathcal{R}\}$ donde
+
+\begin{itemize}
+    \item{$\mathcal{S}$} es un conjunto sorts
+    \item{$\mathcal{V}$} es un conjunto de variables
+    \item{$\mathcal{A}$} es un conjunto no vacio de $\mathcal{S}\times\mathcal{S}$ llamados axiomas 
+    \item{$\mathcal{R}$} es un conjunto de $\mathcal{S}\times\mathcal{S}\times\mathcal{S}$ llamadas $\Pi-Reglas$ 
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+El conjunto T de pseudoterminos de un PTS $ \mathcal{P} = \{ \mathcal{S}, \mathcal{V}, \mathcal{A}, \mathcal{R}\}$ 
+es el menor conjunto que satisface lo siguiente:
+\begin{itemize}
+    \item{} $\mathcal{S} \cup \mathcal{V} \subset \mathcal{T}$
+    \item{} Si $a \in \mathcal{T}$ y $b \in \mathcal{T}$ entonces $ab \in\mathcal{T}$
+    \item{} Si $A \in \mathcal{T}$,  $B \in \mathcal{T}$  y $x \in \mathcal{V}$  entonces $(\lambda x:A.B) \in\mathcal{T}$
+    \item{} Si $A \in \mathcal{T}$,  $B \in \mathcal{T}$  y $x \in \mathcal{V}$  entonces $(\Pi x:A.B) \in\mathcal{T}$
+\end{itemize}
+
+\end{definition}
+
+\begin{definition}Definimos a la relacion $\vdash$, con $\vdash \subseteq \mathcal{C}\times\mathcal{T}\times\mathcal{T}$ como
+la menor relación que cumple:
+
+\begin{equation}
+Srt\qquad\qquad\infer{\emptyset \vdash s_{1} : s_{2}}{}\qquad\qquad (s_{1},s_{2}) \in\mathcal{A}
+\end{equation}
+\end{definition}
+
+
+
+
+\section{Teoría del calculo de $\lambda C$ }
+
+\begin{definition}
+$\lambda C$ es un PTS definido por $\{ \mathcal{S}, \mathcal{V}, \mathcal{A}, \mathcal{R}\}$ tales que:
+
+\begin{itemize}
+    \item{} $\mathcal{S} = \{Prop,Type\}$
+    \item{} $\mathcal{V} = \dots $
+    \item{} $\mathcal{A} = \{(Prop, Type)\}$
+    \item{} $\mathcal{R} = \{(Prop, Prop, Prop), (Type, Prop, Prop), (Type, Type, Type)\}$
+\end{itemize}
+
+\end{definition}
+
+\begin{lemma}
+$\lambda C$ es un PTS \it{full}
+\end{lemma}
+\begin{proof}
+\end{proof}
 
 
 \subsection{Terminos}
