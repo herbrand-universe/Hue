@@ -3,6 +3,7 @@
 
 \usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage{amsmath}
 \usepackage{proof}
 
 
@@ -57,9 +58,20 @@ es el menor conjunto que satisface lo siguiente:
 \begin{definition}Definimos a la relacion $\vdash$, con $\vdash \subseteq \mathcal{C}\times\mathcal{T}\times\mathcal{T}$ como
 la menor relación que cumple:
 
-\begin{equation}
-Srt\qquad\qquad\infer{\emptyset \vdash s_{1} : s_{2}}{}\qquad\qquad (s_{1},s_{2}) \in\mathcal{A}
-\end{equation}
+
+\[
+\begin{array}{llcr}
+	(Srt) & &\infer{\emptyset \vdash s_{1} : s_{2}}{} & (s_{1},s_{2}) \in\mathcal{A} \\ \\
+	(Var) & &\infer{\Gamma, x:A \vdash x:A}{\Gamma\vdash A:s} & \\ \\
+	(Wk)  & &\infer{\Gamma, x:A \vdash b:B}{\Gamma\vdash b:B & \Gamma\vdash A:s} & b\in\mathcal{S}\cup\mathcal{V} \\ \\
+	(Pi)  & &\infer{\Gamma \vdash \Pi x:A.B : s_{3}}{\Gamma\vdash A:s_{1} & \Gamma, x:A \vdash B:s_{2}} &  (s_1,s_2,s_3)\in\mathcal{R}\\ \\
+	(Lda) & &\infer{\Gamma \vdash \lambda a:A.b : \Pi x:A.B }{\Gamma\vdash A:s_{1} & \Gamma, x:A \vdash b:B &\Gamma, x:A \vdash B:s_{2}} &  (s_1,s_2,s_3)\in\mathcal{R}\\ \\
+	(App) & &\infer{\Gamma \vdash a b : A[x:= b] }{\Gamma\vdash a : \Pi x:B.A & \Gamma \vdash b:B} &  \\ \\
+	(Cnv) & &\infer{\Gamma \vdash a:B}{\Gamma\vdash a:A & \Gamma\vdash B:s} & A \simeq B \\ \\
+	
+\end{array}
+\]
+
 \end{definition}
 
 
