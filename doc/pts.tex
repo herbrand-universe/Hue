@@ -1,6 +1,6 @@
 \section{PTS: Pure Type System}
 
-\begin{definition}
+\begin{definition}[PTS]
 Un PTS $\mathcal{P} $ esta definido por $\{ \mathcal{S}, \mathcal{V}, \mathcal{A}, \mathcal{R}\}$ donde
 
 \begin{itemize}
@@ -11,7 +11,7 @@ Un PTS $\mathcal{P} $ esta definido por $\{ \mathcal{S}, \mathcal{V}, \mathcal{A
 \end{itemize}
 \end{definition}
 
-\begin{definition}
+\begin{definition}[Pseudotérminos]
 El conjunto T de pseudoterminos de un PTS $ \mathcal{P} = \{ \mathcal{S}, \mathcal{V}, \mathcal{A}, \mathcal{R}\}$ 
 es el menor conjunto que satisface lo siguiente:
 \begin{itemize}
@@ -20,10 +20,23 @@ es el menor conjunto que satisface lo siguiente:
     \item{} Si $A \in \mathcal{T}$,  $B \in \mathcal{T}$  y $x \in \mathcal{V}$  entonces $(\lambda x:A.B) \in\mathcal{T}$
     \item{} Si $A \in \mathcal{T}$,  $B \in \mathcal{T}$  y $x \in \mathcal{V}$  entonces $(\Pi x:A.B) \in\mathcal{T}$
 \end{itemize}
-
 \end{definition}
 
-\begin{definition}Definimos a la relacion $\vdash$, con $\vdash \subseteq \mathcal{C}\times\mathcal{T}\times\mathcal{T}$ como
+\begin{definition}[PTS funcional]
+Un PTS se dice \emph{funcional} si
+\begin{itemize}
+\item $\langle s_1, s \rangle \in \mathcal{A}$ y $\langle s_1, s'\rangle \in \mathcal{A}$ implica $s = s'$;
+\item $\langle s_1, s_2, s\rangle \in \mathcal{R}$ y $\langle s_1, s_2, s' \rangle \in \mathcal{R}$ implica $s = s'$.
+\end{itemize}
+\end{definition}
+\begin{definition}[PTS full]
+Un PTS se dice \emph{full} si para todo $s_1, s_2 \in \mathcal{S}$
+existe un $s_3 \in \mathcal{S}$ con $\langle s_1, s_2, s_3 \rangle \in \mathcal{R}$.
+\end{definition}
+
+
+\begin{definition}[Relación $\vdash$]
+Definimos a la relacion $\vdash$, con $\vdash \subseteq \mathcal{C}\times\mathcal{T}\times\mathcal{T}$ como
 la menor relación que cumple:
 
 
