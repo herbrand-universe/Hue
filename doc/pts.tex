@@ -1,0 +1,44 @@
+\section{PTS: Pure Type System}
+
+\begin{definition}
+Un PTS $\mathcal{P} $ esta definido por $\{ \mathcal{S}, \mathcal{V}, \mathcal{A}, \mathcal{R}\}$ donde
+
+\begin{itemize}
+    \item{$\mathcal{S}$} es un conjunto sorts
+    \item{$\mathcal{V}$} es un conjunto de variables
+    \item{$\mathcal{A}$} es un conjunto no vacio de $\mathcal{S}\times\mathcal{S}$ llamados axiomas 
+    \item{$\mathcal{R}$} es un conjunto de $\mathcal{S}\times\mathcal{S}\times\mathcal{S}$ llamadas $\Pi-Reglas$ 
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+El conjunto T de pseudoterminos de un PTS $ \mathcal{P} = \{ \mathcal{S}, \mathcal{V}, \mathcal{A}, \mathcal{R}\}$ 
+es el menor conjunto que satisface lo siguiente:
+\begin{itemize}
+    \item{} $\mathcal{S} \cup \mathcal{V} \subset \mathcal{T}$
+    \item{} Si $a \in \mathcal{T}$ y $b \in \mathcal{T}$ entonces $ab \in\mathcal{T}$
+    \item{} Si $A \in \mathcal{T}$,  $B \in \mathcal{T}$  y $x \in \mathcal{V}$  entonces $(\lambda x:A.B) \in\mathcal{T}$
+    \item{} Si $A \in \mathcal{T}$,  $B \in \mathcal{T}$  y $x \in \mathcal{V}$  entonces $(\Pi x:A.B) \in\mathcal{T}$
+\end{itemize}
+
+\end{definition}
+
+\begin{definition}Definimos a la relacion $\vdash$, con $\vdash \subseteq \mathcal{C}\times\mathcal{T}\times\mathcal{T}$ como
+la menor relación que cumple:
+
+
+\[
+\begin{array}{llcr}
+	(Srt) & &\infer{\emptyset \vdash s_{1} : s_{2}}{} & (s_{1},s_{2}) \in\mathcal{A} \\ \\
+	(Var) & &\infer{\Gamma, x:A \vdash x:A}{\Gamma\vdash A:s} & \\ \\
+	(Wk)  & &\infer{\Gamma, x:A \vdash b:B}{\Gamma\vdash b:B & \Gamma\vdash A:s} & b\in\mathcal{S}\cup\mathcal{V} \\ \\
+	(Pi)  & &\infer{\Gamma \vdash \Pi x:A.B : s_{3}}{\Gamma\vdash A:s_{1} & \Gamma, x:A \vdash B:s_{2}} &  (s_1,s_2,s_3)\in\mathcal{R}\\ \\
+	(Lda) & &\infer{\Gamma \vdash \lambda a:A.b : \Pi x:A.B }{\Gamma\vdash A:s_{1} & \Gamma, x:A \vdash b:B &\Gamma, x:A \vdash B:s_{2}} &  (s_1,s_2,s_3)\in\mathcal{R}\\ \\
+	(App) & &\infer{\Gamma \vdash a b : A[x:= b] }{\Gamma\vdash a : \Pi x:B.A & \Gamma \vdash b:B} &  \\ \\
+	(Cnv) & &\infer{\Gamma \vdash a:B}{\Gamma\vdash a:A & \Gamma\vdash B:s} & A \simeq B \\ \\
+	
+\end{array}
+\]
+
+\end{definition}
+

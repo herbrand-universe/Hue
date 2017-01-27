@@ -5,9 +5,11 @@ all : doc.tex
 	pdflatex doc.tex
 
 clean :
-	rm doc.aux
-	rm doc.bbl
-	rm doc.blg
-	rm doc.log
+	rm -f doc.aux
+	rm -f doc.bbl
+	rm -f doc.blg
+	rm -f doc.log
+	rm -f pts.aux
+	rm -f coc.aux
 
 
