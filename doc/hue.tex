@@ -1,0 +1,34 @@
+\section{Hue: Typechecker}
+
+\begin{definition}[Relación $\vdash_{hue}$]
+Definimos a la relacion $\vdash_{hue}$, con $\vdash_{hue} \subseteq \mathcal{C}\times\cT\times\cT$ como
+la menor relación que cumple:
+
+
+\[
+\begin{array}{llcr}
+	(Srt-hue) & &\infer{\Gamma \vdash_{hue} s_{1} : s_{2}}{} & (s_{1},s_{2}) \in\cA \\ \\ 
+	(Var-hue) & &\infer{\Gamma \vdash_{hue} x : A}{} & x:A \in\Gamma \\ \\
+
+	(Pi-hue)  & &\infer{\Gamma \vdash_{hue} \Pi x:A.B : s_{3}}{\Gamma\vdash_{hue} A:s_{1} & \Gamma, x:A \vdash_{hue} B:s_{2}} &  (s_1,s_2,s_3)\in\cR\\ \\
+               & &                                             & x \not\in dom(\Gamma)\\
+	(Lda-hue) & &\infer{\Gamma \vdash_{vtyp} \lambda a:A.b : \Pi x:A.B }{\Gamma\vdash_{vtyp} A:s_{1} & \Gamma, x:A \vdash_{vtyp} b:
+} & \\
+	(App-hue) & &\infer{\Gamma \vdash_{hue} a b : A[x:= b] }{\Gamma\vdash_{hue} a : \Pi x:B.A & \Gamma \vdash_{hue} b:B'} &  B\simeq B' \\ \\
+	
+\end{array}
+\]
+
+\end{definition}
+
+\begin{lemma}{Equivalencia de $\vdash$ y $\vdash_{hue}$}
+Sea $\vdash$ la relación del PTS asociado a $\lambda C$  entonces:
+\begin{equation}
+\Gamma \vdash a : A \Leftrightarrow \Gamma \vdash_{vctx} \land \Gamma \vdash_{hue} a:A
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+chan!
+\end{proof}
+

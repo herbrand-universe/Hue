@@ -55,3 +55,51 @@ la menor relación que cumple:
 
 \end{definition}
 
+\subsection{Optimización}
+
+Podemos introducir un modificación a $\vdash$ orientada a la implementación. En lugar de tener que usar $Wk$ para
+obtener un contexto valido podemos asumir que el mismo es valido. De esta forma las reglas $\vdash_{vtyp}$ se definiría de la 
+siguiente manera:
+
+\begin{definition}[Relación $\vdash_{vtyp}$]
+Definimos a la relacion $\vdash_{vtyp}$, con $\vdash_{vtyp} \subseteq \mathcal{C}\times\cT\times\cT$ como
+la menor relación que cumple:
+
+
+\[
+\begin{array}{llcr}
+	(Srt-vtyp) & &\infer{\Gamma \vdash_{vtyp} s_{1} : s_{2}}{} & (s_{1},s_{2}) \in\cA \\ \\ 
+	(Var-vtyp) & &\infer{\Gamma \vdash_{vtyp} x : A}{} & x:A \in\Gamma \\ \\
+	(Pi-vtyp)  & &\infer{\Gamma \vdash_{vtyp} \Pi x:A.B : s_{3}}{\Gamma\vdash_{vtyp} A:s_{1} & \Gamma, x:A \vdash_{vtyp} B:s_{2}} &  (s_1,s_2,s_3)\in\cR\\ \\
+               & &                                             & x \not\in dom(\Gamma)\\
+	(Lda-vtyp) & &\infer{\Gamma \vdash_{vtyp} \lambda a:A.b : \Pi x:A.B }{\Gamma\vdash_{vtyp} A:s_{1} & \Gamma, x:A \vdash_{vtyp} b:B &\Gamma, x:A \vdash B:s_{2}} &  (s_1,s_2,s_3)\in\cR\\ \\
+               & &                                             & x \not\in dom(\Gamma)\\
+	(App-vtyp) & &\infer{\Gamma \vdash_{vtyp} a b : A[x:= b] }{\Gamma\vdash_{vtyp} a : \Pi x:B.A & \Gamma \vdash_{vtyp} b:B} &  \\ \\
+	(Cnv-vtyp) & &\infer{\Gamma \vdash_{vtyp} a:B}{\Gamma\vdash_{vtyp} a:A & \Gamma\vdash_{vtyp} B:s} & A \simeq B \\ \\
+	
+\end{array}
+\]
+
+\end{definition}
+
+\begin{definition}[Relación $\vdash_{vctx}$]
+Definimos a la relacion $\vdash_{vctx}$, con el menor predicado sobre $\mathcal{C}$ que satisface:
+
+\[
+\begin{array}{llcr}
+	(Nil-vctx)  & &\infer{\emptyset \vdash_{vctx}}{} \\ \\ 
+	(Cons-vctx) & &\infer{\Gamma, x:A \vdash_{vctx}}{\Gamma \vdash_{vctx} & \Gamma \vdash_{vtyp} A : s} \\ \\ 
+	
+
+	
+\end{array}
+\]
+
+\begin{lemma}{Equivalencia de $\vdash$ y $\vdash_{vtyp}$}
+
+\begin{equation}
+\Gamma \vdash a : A \Leftrightarrow \Gamma \vdash_{vctx} \land \Gamma \vdash_{vtyp} a:A
+\end{equation}
+\end{lemma}
+
+\end{definition}

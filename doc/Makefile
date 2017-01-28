@@ -11,5 +11,6 @@ clean :
 	rm -f doc.log
 	rm -f pts.aux
 	rm -f coc.aux
+	rm -f hue.aux
 
 
