@@ -1,4 +1,83 @@
 \section{Hue: Typechecker}
+\begin{definition}
+Los terminos del $\lambda$-calculo esta definidos por:
+
+\begin{verbatim}
+data CoCT =  IdT Int
+           | VarT String
+           | LamT CoCT CoCT
+           | AppT CoCT CoCT
+           | PiT CoCT CoCT
+           | PropT
+           | TypeT deriving (Eq)
+
+type Type = CoCT
+type Term = CoCT
+
+\end{verbatim}
+
+\end{definition}
+
+\begin{definition}
+Los contextos en Hue estan definidos de la siguiente manera:
+
+\begin{verbatim}
+type Context = [ (String, (Maybe Term, Type)) ]
+\end{verbatim}
+
+\end{definition}
+
+\begin{definition}
+Definimos $whnf$ como el operador que reduce un termino a su forma normal a la cabeza.
+
+\begin{verbatim}
+whnf :: Context -> CoCT -> NTerm
+whnf c (IdT n)    = NAtom (AId n)
+whnf c (VarT s)   = maybe (NAtom (AVar s)) (whnf c) (getDef c s)
+whnf c (PiT s t)  = NAtom (APi s t)
+whnf c PropT      = NAtom (AProp)
+whnf c TypeT      = NAtom (AType)
+whnf c (LamT s t) = NLam s t
+whnf c (AppT m n) = case whnf c m of
+            NLam _ t -> whnf c (app t n)
+            NAtom t  -> NAtom (AApp t n)
+
+\end{verbatim}
+\end{definition}
+
+\begin{definition}
+Definimos la relacion $A \simeq_{\delta\beta} B$ de la siguiente manera
+
+\begin{verbatim}
+conv :: Context -> CoCT -> CoCT -> Bool
+conv c s t = convT c (whnf c s) (whnf c t)
+\end{verbatim}
+
+\end{definition}
+
+\begin{definition}
+Definimos el operador $\twoheadrightarrow^{*} \Pi x:A.B$ de la siguiente manera
+
+\begin{verbatim}
+getPi :: Context -> CoCT -> Maybe (CoCT,CoCT)
+getPi c t = case whnf c t of
+              NAtom (APi m n) -> Just (m, n)
+              _       -> Nothing
+\end{verbatim}
+
+Definimos el operador $\twoheadrightarrow^{*} s$ donde $s\in\cS$ de la siguiente manera
+
+\begin{verbatim}
+getSort :: Context -> CoCT -> Maybe CoCT
+getSort c t = case whnf c t of
+                NAtom AProp -> Just PropT
+                NAtom AType -> Just TypeT
+                _           -> Nothing
+
+\end{verbatim}
+\end{definition}
+
+
 
 \begin{definition}[Relación $\vdash_{hue}$]
 Definimos a la relacion $\vdash_{hue}$, con $\vdash_{hue} \subseteq \mathcal{C}\times\cT\times\cT$ como
@@ -10,11 +89,11 @@ la menor relación que cumple:
 	(Srt-hue) & &\infer{\Gamma \vdash_{hue} s_{1} : s_{2}}{} & (s_{1},s_{2}) \in\cA \\ \\ 
 	(Var-hue) & &\infer{\Gamma \vdash_{hue} x : A}{} & x:A \in\Gamma \\ \\
 
-	(Pi-hue)  & &\infer{\Gamma \vdash_{hue} \Pi x:A.B : s_{3}}{\Gamma\vdash_{hue} A:s_{1} & \Gamma, x:A \vdash_{hue} B:s_{2}} &  (s_1,s_2,s_3)\in\cR\\ \\
+	(Pi-hue)  & &\infer{\Gamma \vdash_{hue} \Pi x:A.B : s_{3}}{\Gamma\vdash_{hue} A:\twoheadrightarrow^{*} s_{1} & \Gamma, x:A \vdash_{hue} B:\twoheadrightarrow^{*}s_{2}} &  (s_1,s_2,s_3)\in\cR\\ \\
                & &                                             & x \not\in dom(\Gamma)\\
-	(Lda-hue) & &\infer{\Gamma \vdash_{vtyp} \lambda a:A.b : \Pi x:A.B }{\Gamma\vdash_{vtyp} A:s_{1} & \Gamma, x:A \vdash_{vtyp} b:
-} & \\
-	(App-hue) & &\infer{\Gamma \vdash_{hue} a b : A[x:= b] }{\Gamma\vdash_{hue} a : \Pi x:B.A & \Gamma \vdash_{hue} b:B'} &  B\simeq B' \\ \\
+	(Lda-hue) & &\infer{\Gamma \vdash_{vtyp} \lambda a:A.b : \Pi x:A.B }{\Gamma\vdash_{vtyp} A:\twoheadrightarrow^{*} s_{1} & \Gamma, x:A \vdash_{vtyp} b: B
+} & B \not\in\cS \lor \cA(B) \\
+	(App-hue) & &\infer{\Gamma \vdash_{hue} a b : A[x:= b] }{\Gamma\vdash_{hue} a :\twoheadrightarrow^{*} \Pi x:B.A & \Gamma \vdash_{hue} b:B'} &  B\simeq B' \\ \\
 	
 \end{array}
 \]
