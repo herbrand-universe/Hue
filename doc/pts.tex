@@ -34,6 +34,18 @@ Un PTS se dice \emph{full} si para todo $s_1, s_2 \in \cS$
 existe un $s_3 \in \cS$ con $\langle s_1, s_2, s_3 \rangle \in \cR$.
 \end{definition}
 
+\begin{definition}[PTS semifull]
+Un PTS se dice \emph{semi-full} si para todo $s_1 \in \cS$
+$\exists s_2, s_3 [\langle s_1, s_2, s_3 \rangle \in \cR ] \Rightarrow \forall s_2 \exists s_3 [\langle s_1, s_2, s_3 \rangle \in \cR ]$
+\end{definition}
+
+
+\begin{lemma}
+ PTS full $\Rightarrow$ PTS semi full ??
+
+
+ PTS funcional $\Rightarrow$ PTS full o semi full??
+\end{lemma}
 
 \begin{definition}[Relación $\vdash$]
 Definimos a la relacion $\vdash$, con $\vdash \subseteq \mathcal{C}\times\cT\times\cT$ como
@@ -54,6 +66,16 @@ la menor relación que cumple:
 \]
 
 \end{definition}
+
+\subsection{Ejemplos}
+
+Sea $\cS = \{\Prop, \Type\}$ y $\cA = \{(\Prop : \Type)\}$ tenemos que
+
+\begin{itemize}
+    \item $\lambda^{\rightarrow}$ es el PTS con $(\cS, \cV, \cA, \cR_{1})$
+    \item $\lambda \Pi$ es el PTS con $(\cS, \cV, \cA, \cR_{2})$
+    \item $\lambda C$ es el PTS con $(\cS, \cV, \cA, \cR_{3})$
+\end{itemize}
 
 \subsection{Optimización}
 
