@@ -137,3 +137,78 @@ Definimos a la relacion $\vdash_{vctx}$, con el menor predicado sobre $\mathcal{
 \end{lemma}
 
 \end{definition}
+
+
+\section{PTS Semifull}
+
+\begin{definition}[$\vdash_sf$]
+
+$\vdash_sf \subseteq \mathcal{C}\times\cT\times\cT$ es la menor relación que satisface las relgas de $\vdash$ pero
+se reemplaza la regla $lda$ por
+
+\[
+\begin{array}{llcr}
+	(Lda1-sf) & &\infer{\Gamma \vdash_{sf} \lambda x:A.b : \Pi x:A.B}{\Gamma \vdash_{sf} A:s_1& \Gamma x:A \vdash_{sf} b : B} & \langle s_1,s_2,s_3 \rangle \in \cR  \\  
+	          & &                                                                                                             & B \in \cS  \\ 
+	(Lda2-sf) & &\infer{\Gamma \vdash_{sf} \lambda x:A.b : \Pi x:A.s_b}{\Gamma \vdash_{sf} A:s_1& \Gamma x:A \vdash_{sf} b : s_b} & \langle s_1,s_2,s_3 \rangle \in \cR \\ 
+	          & &                                                                                                             & \langle s_b, s_4 \rangle \in \cA  \\ 
+	
+
+	
+\end{array}
+\]
+
+
+\end{definition}
+
+\begin{lemma}{Equivalencia entre $\vdash$ y $\vdash_{sf}$}
+Dado un PTS semifull tenemos que
+
+\begin{equation}
+\Gamma \vdash a : A \Leftrightarrow \Gamma \vdash_{sf} a: A
+\end{equation}
+
+\end{lemma}
+
+
+
+\begin{definition}[$\vdash_sfnsd$]
+Usando $\vdash_{sf}$ podemos de definir una nueva relación casi dirigida por sintaxis, $\vdash_{sfnsd} \subseteq \mathcal{C}\times\cT\times\cT$ es la
+menor relacion que satisface:
+
+
+\[
+\begin{array}{llcr}
+	(Srt-sfnsd) & &\infer{\emptyset \vdash_{sfnsd} s_{1} : s_{2}}{} & (s_{1},s_{2}) \in\cA \\ \\
+	(Var-sfnsd) & &\infer{\Gamma, x:A \vdash_{sfnsd} x:A}{\Gamma\vdash_{sfnsd} A:\twoheadrightarrow s} & \\ \\
+	(Wk-sfnsd)  & &\infer{\Gamma, x:A \vdash_{sfnsd} b:B}{\Gamma\vdash_{sfnsd} b:B & \Gamma\vdash_{sfnsd} A:\twoheadrightarrow s} & b\in\cS\cup\cV \\ \\
+	(Pi-sfnsd)  & &\infer{\Gamma \vdash_{sfnsd} \Pi x:A.B : s_{3}}{\Gamma\vdash_{sfnsd} A:\twoheadrightarrow s_{1} & \Gamma, x:A \vdash_{sfnsd} B:\twoheadrightarrow s_{2}} &  (s_1,s_2,s_3)\in\cR\\ \\
+
+	(Lda1-sfnsd) & &\infer{\Gamma \vdash_{sfnsd} \lambda x:A.b : \Pi x:A.B}{\Gamma \vdash_{sfnsd} A:\twoheadrightarrow s_1& \Gamma x:A \vdash_{sfnsd} b : B} & \langle s_1,s_2,s_3 \rangle \in \cR  \\  
+	          & &                                                                                                             & B \in \cS  \\ 
+	(Lda2-sfnsd) & &\infer{\Gamma \vdash_{sfnsd} \lambda x:A.b : \Pi x:A.s_b}{\Gamma \vdash_{sfnsd} A:\twoheadrightarrow s_1& \Gamma x:A \vdash_{sfnsd} b : s_b} & \langle s_1,s_2,s_3 \rangle \in \cR \\ 
+	          & &                                                                                                             & \langle s_b, s_4 \rangle \in \cA  \\ 
+
+	(App-sfnsd) & &\infer{\Gamma \vdash_{sfnsd} a b : A[x:= b] }{\Gamma\vdash_{sfnsd} a : \twoheadrightarrow^{wh} \Pi x:B_0 .A & \Gamma \vdash_{sfnsd} b:B_1} & B_0 \simeq B_1  \\ \\
+	
+\end{array}
+\]
+
+
+
+\end{definition}
+
+\begin{lemma}{Equivalencia entre $\vdash_{sf}$ y $\vdash_{sfnsd}$}
+Dado un PTS semifull tenemos que 
+
+\begin{itemize}
+    \item Si $\Gamma \vdash_{sfnsd} a : A$ entonces $\Gamma \vdash_{sf} a:A$
+    \item Si $\Gamma \vdash_{sf} a : A$ entonces $\exists A_0 | \Gamma \vdash_{sfnsd} a : A_0 \land A_0 \simeq A$
+    
+\end{itemize}
+
+\end{lemma}
+
+\begin{lemma}
+Si tenemos un PTS semifull y funcional entonces $\vdash_{sfnsd}$ son reglas dirigidas por sintaxis
+\end{lemma}
