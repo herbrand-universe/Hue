@@ -1,4 +1,4 @@
-module Core.Context(SContext(..),safeAddDef,existType,addContext,empty,memberT,getVarT,nameOfType) where
+module Core.Context(SContext(..),safeAddDef,existType,addContext,empty,memberT,getVarT,nameOfType,lengthCtx,popCtxUntil) where
 
 import Data.Tuple
 import Core.Term
@@ -19,6 +19,9 @@ instance Show SContext where
 empty :: SContext
 empty = SC emptyC
 
+
+lengthCtx :: SContext -> Int
+lengthCtx (SC xs) = length xs
 
 
 getVarT :: SContext -> String -> Maybe CoCT
@@ -55,5 +58,8 @@ addContext :: SContext -> String -> CoCT -> Maybe SContext
 addContext (SC c) n t | (validT c t) = addVar c n t >>= (\c' -> Just (SC c'))
 addContext  _     _  _               = Nothing
 --addContext (SC c) n t = maybe Nothing (\c' -> Just (SC c')) (addContextT c n t)
+
+popCtxUntil :: SContext -> Int -> Maybe SContext
+popCtxUntil (SC c) n = if (length c < n) then Nothing else Just (SC $ reverse (take n (reverse c)))
 
 

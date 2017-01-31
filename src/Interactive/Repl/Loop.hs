@@ -16,7 +16,7 @@ import Interactive.Prover.Prover
 
 read :: InputT (StateT SContext IO) Command
 read = do  ctx <- lift get
-           line <- getInputLine ("Huetop[" ++ "0" ++ "]#")
+           line <- getInputLine ("Huetop[" ++ (show $ lengthCtx ctx) ++ "]#")
            case line of
                Nothing -> return Quit
                Just l -> proc l
@@ -30,6 +30,11 @@ proc l = case parseCommand l of
 eval :: Command -> InputT (StateT SContext IO) Bool
 eval Quit = return False
 eval Nop = return True
+eval (Undo n) = do ctx <- lift get
+                   case popCtxUntil ctx (fromInteger n)  of
+                        Just c -> lift $ put $ c
+                        Nothing -> outputStrLn "[ERROR] Type error."
+                   return True
 eval (Type ast) = do ctx <- lift get
                      outputStrLn (show (typeOf ctx (toDeBruijn ast)))
                      return True

@@ -16,6 +16,8 @@ module Core.API (
   nameOfType,
   memberT,
   getPiT,
+  lengthCtx,
+  popCtxUntil,
   conv
 ) where
 

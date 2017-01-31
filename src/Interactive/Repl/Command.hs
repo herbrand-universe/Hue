@@ -12,4 +12,5 @@ data Command = Quit
              | Def String CoCAST CoCAST
              | Load FilePath
              | Import FilePath
+             | Undo Integer
              deriving Show

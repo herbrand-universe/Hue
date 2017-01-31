@@ -13,7 +13,7 @@ import Format.Parser
 lexer :: Tok.TokenParser ()
 lexer = Tok.makeTokenParser style
   where ops   = ["="]
-        names = [":quit", ":type", ":conv", ":load", "proof", "var", "is","def", "import", ";"]
+        names = [":quit", ":type", ":conv", ":load", ":undo", "proof", "var", "is","def", "import", ";"]
         style = emptyDef {Tok.reservedOpNames = ops,
                           Tok.reservedNames = names,
                           Tok.commentLine = "#"}
@@ -27,9 +27,13 @@ reservedOp = Tok.reservedOp lexer
 identifier :: Parser String
 identifier = Tok.identifier lexer
 
+numero :: Parser Integer 
+numero  = Tok.integer lexer
+
 filepath :: Parser String
 filepath = do s <- many1 (noneOf ";")
               return s
+
 
 lexeme = Tok.lexeme lexer
 
@@ -69,6 +73,12 @@ loadC = do reserved ":load"
            eof
            return $ Load "Prelude.hue"
 
+undoC = do reserved ":undo"
+           n <- numero 
+           reserved ";"
+           eof
+           return $ Undo n 
+
 defC = do reserved "def"
           id <- identifier
           reserved "is"
@@ -96,6 +106,6 @@ importC = do reserved "import"
 nopC = do eof
           return $ Nop
           
-command = quitC <|> loadC <|> typeC <|> convC <|> proofC <|> printC <|> varC <|> defC <|> importC <|> nopC
+command = quitC <|> undoC <|> loadC <|> typeC <|> convC <|> proofC <|> printC <|> varC <|> defC <|> importC <|> nopC
 
 parseCommand l = parse command "<interactive>" l
