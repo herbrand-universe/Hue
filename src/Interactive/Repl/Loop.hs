@@ -15,8 +15,9 @@ import Format.Pretty
 import Interactive.Prover.Prover
 
 read :: InputT (StateT SContext IO) Command
-read = do line <- getInputLine "Huetop# "
-          case line of
+read = do  ctx <- lift get
+           line <- getInputLine ("Huetop[" ++ "0" ++ "]#")
+           case line of
                Nothing -> return Quit
                Just l -> proc l
                               

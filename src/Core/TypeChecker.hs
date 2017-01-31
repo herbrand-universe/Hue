@@ -20,13 +20,10 @@ import Core.Term
 import Core.RawContext
 import Core.Reduction 
 
-axioms :: [(CoCT,CoCT)]
-axioms = [(PropT, TypeT)]
 
-piRules = [(PropT, PropT, PropT), (TypeT, PropT, PropT), 
-            (PropT, TypeT, TypeT), (TypeT, TypeT, TypeT)]
-
-
+{-----------------------------------------------------------------------------
+ PTS functional + CC
+------------------------------------------------------------------------------}
 funAxioms :: CoCT -> Maybe CoCT
 funAxioms PropT = Just TypeT
 funAxioms _     = Nothing
