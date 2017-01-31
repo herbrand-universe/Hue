@@ -15,6 +15,7 @@ Comandos:
 ---
 - :load [< archivo >]
 - :type < Term >
+- :undo < Integer >
 - :conv < Term > = < Term >
 - :quit
 
