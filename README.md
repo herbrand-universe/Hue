@@ -4,10 +4,10 @@ Hue
 ToDo:
 ---
 - [x] Hacer andar huetop en GHC 7.10
-- [ ] Agregar al prompt de huetop la cardinalidad del contexto 'huetop[3]#', es decir, tiene 3 definiciones
+- [x] Agregar al prompt de huetop la cardinalidad del contexto 'huetop[3]#', es decir, tiene 3 definiciones
 - [ ] Estandarizar errores con una regexp
-- [ ] Agregar comando undo, que hace pop de la última modificacion de estado
-- [ ] Agregar comando undo_n, que hace n-pops sobre el contexto
+- [x] Agregar comando undo, que hace pop de la última modificacion de estado
+- [x] Agregar comando undo_n, que hace n-pops sobre el contexto
 - [ ] Agregar comando por borrar una prueba.
 - [ ] Hacer andar el proofgeneral
 
