@@ -4,9 +4,11 @@ Hue
 ToDo:
 ---
 - [x] Hacer andar huetop en GHC 7.10
-- [ ] Agregar al prompt de huetop la cardinalidad del contxto 'huetop[3]#'
+- [ ] Agregar al prompt de huetop la cardinalidad del contexto 'huetop[3]#', es decir, tiene 3 definiciones
 - [ ] Estandarizar errores con una regexp
-- [ ] Agregar commando undo, que hace pop de la últimia modificacion de estado
+- [ ] Agregar comando undo, que hace pop de la última modificacion de estado
+- [ ] Agregar comando undo_n, que hace n-pops sobre el contexto
+- [ ] Agregar comando por borrar una prueba.
 - [ ] Hacer andar el proofgeneral
 
 Comandos:
@@ -59,11 +61,6 @@ para compilar el proyecto.
 stack exec Hue
 ```
 para ejecutar Hue en el directorio actual.
-
-Hue proof-assistant
-
-- [x] Hacer andar huetop en GHC 7.10
-- [ ] Hacer andar el proofgeneral
 
 
 Tablas
