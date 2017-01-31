@@ -1,6 +1,14 @@
 Hue
 ===
 
+ToDo:
+---
+- [x] Hacer andar huetop en GHC 7.10
+- [ ] Agregar al prompt de huetop la cardinalidad del contxto 'huetop[3]#'
+- [ ] Estandarizar errores con una regexp
+- [ ] Agregar commando undo, que hace pop de la últimia modificacion de estado
+- [ ] Hacer andar el proofgeneral
+
 Comandos:
 ---
 - :load [< archivo >]
