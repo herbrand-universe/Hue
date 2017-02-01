@@ -21,7 +21,7 @@
    (every (lambda (entry) (stringp entry)) path)))
 
 ;; --------------------------------------------------------------------
-(defcustom hue-prog-name "/home/herbrand/01-Proyectos/GitRepos/Hue/src/huetop"
+(defcustom hue-prog-name "huetop"
   "*Name of program to run Hue."
   :type  'file
   :group 'hue)
@@ -35,7 +35,7 @@ this list are strings."
   :group 'hue)
 
 (defcustom hue-web-page
-  "http://www.easycrypt.info/"
+  "https://github.com/herbrand-universe/Hue"
   "URL of web page for Hue."
   :type  'string
   :group 'hue-config)

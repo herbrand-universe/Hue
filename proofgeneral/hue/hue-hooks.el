@@ -65,6 +65,6 @@
 
 (defun hue-find-and-forget (span)
   (let ((span-staten (hue-get-span-statenum span)))
-       (list (format "undo %s." (int-to-string span-staten)))))
+       (list (format "pragma_undo %s;" (int-to-string span-staten)))))
 
 (provide 'hue-hooks)

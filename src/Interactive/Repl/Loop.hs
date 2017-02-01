@@ -26,15 +26,11 @@ proc l = case parseCommand l of
                               Left err -> do outputStrLn ("[ERROR] " ++ show err)
                                              return Nop
                               Right cmd -> return cmd
-               
+
+
 eval :: Command -> InputT (StateT SContext IO) Bool
-eval Quit = return False
-eval Nop = return True
-eval (Undo n) = do ctx <- lift get
-                   case popCtxUntil ctx (fromInteger n)  of
-                        Just c -> lift $ put $ c
-                        Nothing -> outputStrLn "[ERROR] Type error."
-                   return True
+eval Quit        = return False
+eval Nop         = return True
 eval (Type ast) = do ctx <- lift get
                      outputStrLn (show (typeOf ctx (toDeBruijn ast)))
                      return True
@@ -64,6 +60,14 @@ eval (Load s) = do c <- liftIO $ readFile s
 eval (Import s) = do c <- liftIO $ readFile s
                      mapM ((>>= eval) . proc) (lines c)
                      return True
+eval (PragmaUndo n) = do ctx <- lift get
+                         case popCtxUntil ctx (fromInteger n)  of
+                           Just c -> lift $ put $ c
+                           Nothing -> outputStrLn "[ERROR] Type error."
+                         return True
+
+eval _ = return True
+
 {-
 serialEval [] = return []
 serialEval (s:ss) = case proc s of
@@ -79,6 +83,7 @@ loop = do c <- read
             True -> loop
             False -> return ()
             
+-- TODO: Ver como tomar un path por argumento ... huetop -I <PATH>
 pre = do c <- liftIO $ readFile "Logic.hue"
          mapM ((>>= eval) . proc) (lines c)
          loop

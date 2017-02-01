@@ -1,6 +1,4 @@
 
-
-
 var Nat is Prop;
 var Z   is Nat;
 var Suc is Nat -> Nat;
