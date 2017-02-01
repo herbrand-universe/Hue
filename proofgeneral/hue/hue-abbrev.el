@@ -1,29 +1,25 @@
+;; --------------------------------------------------------------------
+;; Copyright (c) - 2012--2016 - IMDEA Software Institute
+;; Copyright (c) - 2012--2016 - Inria
+;;
+;; Distributed under the terms of the GPL-v3 license
+;; --------------------------------------------------------------------
+
 (require 'proof)
 (require 'hue-syntax)
 
-(defpgdefault  menu-entries
+(defpgdefault menu-entries
   '(
     ["Use Three Panes" proof-three-window-toggle
-      :style toggle
-      :active (not proof-multiple-frames-enable)
+      :style    toggle
+      :active   (not proof-multiple-frames-enable)
       :selected proof-three-window-enable
-      :help "Use three panes"]
-    ""
-    ["Index Menu" proof-imenu-toggle
-      :active (stringp (locate-library "imenu"))
-      :style toggle
-      :selected proof-imenu-enable
-      :help "Generate an index menu of definitions, display which function in modeline"]
+      :help     "Use three panes"]
 
-    ["Unicode tokens" (proof-unicode-tokens-toggle (if (boundp 'unicode-tokens-mode) (if unicode-tokens-mode 0 1) 1)) ]
-
-    ["Speedbar" speedbar
-      :active (stringp (locate-library "speedbar"))
-      :style toggle
-      :selected (and (boundp 'speedbar-frame) speedbar-frame)
-      :help "Speedbar navigation window"]
+    ["Weak-check mode" hue-proof-weak-mode-toggle
+     :style    toggle
+     :selected hue-proof-weak-mode
+     :help     "Toggles Hue check mode."]
 ))
-
-
 
 (provide 'hue-abbrev)
