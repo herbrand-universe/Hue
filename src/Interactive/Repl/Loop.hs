@@ -1,12 +1,14 @@
 module Interactive.Repl.Loop(repl) where
 
-import System.Console.Haskeline
+import System.Console.Haskeline hiding (handle)
 import System.Exit
 import Prelude hiding (read)
 import System.IO
+import System.IO.Error
 import Control.Monad
 import Control.Monad.Trans
 import Control.Monad.State.Strict
+import Control.Exception (try)
 
 import Interactive.Repl.Command
 import Interactive.Repl.Parser
@@ -58,7 +60,7 @@ eval (Def s ast ast') = do ctx <- lift get
                                            lift $ put $ c
                              Nothing -> outputStrLn "[ERROR] Type error."
                            return True
-eval (Load s) = do c <- liftIO $ readFile s
+eval (Load s) = do c <- liftIO $ try (readFile s) >>= handleRead
                    mapM ((>>= eval) . proc) (lines c)
                    return True
 eval (Import s) = do c <- liftIO $ readFile s
@@ -79,9 +81,13 @@ loop = do c <- read
             True -> loop
             False -> return ()
             
-pre = do c <- liftIO $ readFile "Logic.hue"
+pre = do c <- liftIO $ try (readFile "Logic.hue") >>= handleRead
          mapM ((>>= eval) . proc) (lines c)
          loop
+
+handleRead :: Either IOError String -> IO String
+handleRead (Right v) = return v
+handleRead (Left e)  = putStrLn ("IO error: " ++ show (ioeGetFileName e)) >> return ""
   
 
 repl = flip runStateT empty $ runInputT defaultSettings pre

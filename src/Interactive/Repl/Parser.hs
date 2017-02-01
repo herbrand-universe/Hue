@@ -71,7 +71,7 @@ printC = do reserved ":print"
 loadC = do reserved ":load"
            fp <- lexeme (many anyChar)
            eof
-           return $ Load "Prelude.hue"
+           return $ Load fp
 
 undoC = do reserved ":undo"
            n <- numero 
