@@ -12,5 +12,10 @@ data Command = Quit
              | Def String CoCAST CoCAST
              | Load FilePath
              | Import FilePath
-             | Undo Integer
+             {- Directivas parar PG -}
+             | PragmaRestart
+             | PragmaBack
+             | PragmaUndo Integer
+             | PragmaPath FilePath
              deriving Show
+

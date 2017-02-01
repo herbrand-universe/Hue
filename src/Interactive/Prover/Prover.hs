@@ -15,7 +15,7 @@ import Tactics.ProverState
 import Core.API
 import Format.Parser
 
-data ProverCommand = Tac Tactic | Qed | Nop
+data ProverCommand = Tac Tactic | Qed | Kill | Nop
 
 -- Lexer
 
@@ -23,7 +23,7 @@ lexer :: Tok.TokenParser ()
 lexer = Tok.makeTokenParser style
   where names = ["intro", "admit", "assumption", "apply", "exact",  "split", 
                  "left", "right", "elim","unfold","absurd", "cut" , "with",
-                 "qed"]
+                 "qed", "kill"]
         style = emptyDef {Tok.reservedNames = names,
                           Tok.commentLine = "#"}
 
@@ -87,19 +87,23 @@ cutT = do reserved "cut"
           t <- cocast
           return $ Tac (Cut(toDeBruijn t))
 
+killC = do reserved "kill"
+           return Kill
+           
 qedC = do reserved "qed"
           return Qed
            
 tactic = try intronT <|> introT <|> admitT <|> try applyT <|> applynT 
          <|> assumptionT <|> exactT <|> splitT  <|> leftT <|> rightT 
-         <|> elimT <|> unfoldT <|> absurdT <|> cutT <|> qedC
+         <|> elimT <|> unfoldT <|> absurdT <|> cutT <|> qedC <|> killC
 
 parseTactic = parse tactic "<prover>"
 
 -- REPL
 
 read :: InputT (StateT SContext IO) ProverCommand
-read = do line <- getInputLine "# "
+read = do ctx <- lift get 
+          line <- getInputLine ("Huetop[" ++ (show $ lengthCtx ctx) ++ "]#")
           case line of
                Nothing -> return Qed
                Just l -> proc l
@@ -126,6 +130,7 @@ freshNames = map (('H':) . show) [0..]
 
 eval :: [String] -> Tree -> ProverCommand -> InputT (StateT SContext IO) Tree
 eval ss s Nop = loop ss s
+eval ss s Kill = return s
 eval ss s Qed = do (outputStrLn $ "Proof-Term [" ++ (show $ proof s) ++ "]") 
                    ctx <- lift get
                    case safeAddDef ctx (getName s) (getType s) (proof s) of

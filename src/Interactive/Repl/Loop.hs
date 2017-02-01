@@ -28,15 +28,11 @@ proc l = case parseCommand l of
                               Left err -> do outputStrLn ("[ERROR] " ++ show err)
                                              return Nop
                               Right cmd -> return cmd
-               
+
+
 eval :: Command -> InputT (StateT SContext IO) Bool
-eval Quit = return False
-eval Nop = return True
-eval (Undo n) = do ctx <- lift get
-                   case popCtxUntil ctx (fromInteger n)  of
-                        Just c -> lift $ put $ c
-                        Nothing -> outputStrLn "[ERROR] Type error."
-                   return True
+eval Quit        = return False
+eval Nop         = return True
 eval (Type ast) = do ctx <- lift get
                      outputStrLn (show (typeOf ctx (toDeBruijn ast)))
                      return True
@@ -66,6 +62,14 @@ eval (Load s) = do c <- liftIO $ try (readFile s) >>= handleRead
 eval (Import s) = do c <- liftIO $ readFile s
                      mapM ((>>= eval) . proc) (lines c)
                      return True
+eval (PragmaUndo n) = do ctx <- lift get
+                         case popCtxUntil ctx (fromInteger n)  of
+                           Just c -> lift $ put $ c
+                           Nothing -> outputStrLn "[ERROR] Type error."
+                         return True
+
+eval _ = return True
+
 {-
 serialEval [] = return []
 serialEval (s:ss) = case proc s of
@@ -81,13 +85,14 @@ loop = do c <- read
             True -> loop
             False -> return ()
             
+-- TODO: Ver como tomar un path por argumento ... huetop -I <PATH>
 pre = do c <- liftIO $ try (readFile "Logic.hue") >>= handleRead
          mapM ((>>= eval) . proc) (lines c)
          loop
 
 handleRead :: Either IOError String -> IO String
 handleRead (Right v) = return v
-handleRead (Left e)  = putStrLn ("IO error: " ++ show (ioeGetFileName e)) >> return ""
+handleRead (Left e)  = putStrLn ("[ERROR] IO: " ++ show (ioeGetFileName e)) >> return ""
   
 
 repl = flip runStateT empty $ runInputT defaultSettings pre

@@ -73,12 +73,6 @@ loadC = do reserved ":load"
            eof
            return $ Load fp
 
-undoC = do reserved ":undo"
-           n <- numero 
-           reserved ";"
-           eof
-           return $ Undo n 
-
 defC = do reserved "def"
           id <- identifier
           reserved "is"
@@ -103,9 +97,50 @@ importC = do reserved "import"
              eof
              return $ Import fp
 
+
+{- Comandos para PG -}
+restartC = do reserved "pragma_restart"
+              reserved ";"
+              eof
+              return $ PragmaRestart
+
+undoC = do reserved "pragma_undo"
+           n <- numero 
+           reserved ";"
+           eof
+           return $ PragmaUndo n 
+
+backC    = do reserved "pragma_back"
+              reserved ";"
+              eof
+              return $ PragmaBack
+
+
+pathC    = do reserved "pragma_path"
+              fp <- filepath
+              reserved ";"
+              eof
+              return $ PragmaPath fp
+
+
+
+
 nopC = do eof
           return $ Nop
           
-command = quitC <|> undoC <|> loadC <|> typeC <|> convC <|> proofC <|> printC <|> varC <|> defC <|> importC <|> nopC
+command =       quitC 
+            <|> restartC 
+            <|> undoC 
+            <|> backC 
+            <|> pathC 
+            <|> loadC 
+            <|> typeC 
+            <|> convC 
+            <|> proofC 
+            <|> printC 
+            <|> varC 
+            <|> defC 
+            <|> importC 
+            <|> nopC
 
 parseCommand l = parse command "<interactive>" l
