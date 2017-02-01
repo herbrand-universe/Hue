@@ -15,6 +15,7 @@
       :active   (not proof-multiple-frames-enable)
       :selected proof-three-window-enable
       :help     "Use three panes"]
+    ["Unicode tokens" (proof-unicode-tokens-toggle (if (boundp 'unicode-tokens-mode) (if unicode-tokens-mode 0 1) 1)) ]
 
     ["Weak-check mode" hue-proof-weak-mode-toggle
      :style    toggle

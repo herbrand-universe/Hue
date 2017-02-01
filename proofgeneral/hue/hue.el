@@ -11,6 +11,7 @@
 (require 'hue-hooks)
 (require 'hue-abbrev)
 
+
 (add-to-list 'hs-special-modes-alist
   '(hue-mode "{" "}" "/[*/]" nil nil))
 
