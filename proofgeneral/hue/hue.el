@@ -83,6 +83,7 @@ this list are strings."
   ;; For undo
   (setq  proof-find-and-forget-fn              'hue-find-and-forget
          proof-completed-proof-behaviour       nil
+         proof-kill-goal-command               "kill"
          proof-non-undoables-regexp            hue-non-undoables-regexp
          proof-shell-restart-cmd               "pragma restart. ")
 
@@ -217,18 +218,6 @@ this list are strings."
 
 (add-hook 'proof-shell-handle-error-or-interrupt-hook
           'hue-highlight-error-hook t)
-
-;; --------------------------------------------------------------------
-;; Check mode related commands
-(defun hue-cmode-check ()
-  "Set Hue in check mode."
-  (interactive)
-  (proof-shell-invisible-command "pragma Proofs:check."))
-
-(defun hue-cmode-weak-check ()
-  "Set Hue in weak-check mode."
-  (interactive)
-  (proof-shell-invisible-command "pragma Proofs:weak."))
 
 ;; --------------------------------------------------------------------
 (defun hue-ask-do (do)

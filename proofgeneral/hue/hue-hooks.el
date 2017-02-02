@@ -11,18 +11,6 @@
 (defvar hue-last-but-one-statenum 0)
 (defvar hue-proof-weak-mode nil)
 
-;; Proof mode
-(defun hue-proof-weak-mode-toggle ()
-  "Toggle Hue check mode."
-  (interactive)
-  (cond
-     (hue-proof-weak-mode
-        (proof-shell-invisible-cmd-get-result "pragma Proofs:check"))
-     (t (proof-shell-invisible-cmd-get-result "pragma Proofs:weak")))
-  (if
-      (eq 'error proof-shell-last-output-kind)
-      (message "Failed to set proof mode")))
-
 ;; Function for set or get the information in the span
 (defsubst hue-get-span-statenum (span)
   "Return the state number of the SPAN."
@@ -39,9 +27,9 @@
 (defun hue-last-prompt-info (s)
   "Extract the information from prompt."
   (let ((lastprompt (or s (error "no prompt"))))
-     (when (string-match "\\[\\([0-9]+\\)|\\(\\sw+\\)\\]" lastprompt)
+     (when (string-match "Huetop\\[\\([0-9]+\\)\\]#" lastprompt)
            (list (string-to-number (match-string 1 lastprompt))
-                 (if (equal (match-string 2 lastprompt) "weakcheck") t nil)))))
+                 (if (equal (match-string 1 lastprompt) "weakcheck") t nil)))))
 
 (defun hue-last-prompt-info-safe ()
   "Take from `proof-shell-last-prompt' the last information in the prompt."

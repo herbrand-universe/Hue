@@ -11,9 +11,15 @@
 
 (defconst hue-id "[A-Za-z_]+")
 
-(defconst hue-command-start-regexp "\\(assume\\|define\\|proof\\|qed\\|intro\\|assumption\\|exact\\|apply\\)")
+(defconst hue-command-start-regexp 
+    (concat 
+        "\\("
+        (proof-ids-to-regexp hue-global-keywords)
+        "\\|"
+        (proof-ids-to-regexp hue-tactic-keywords)
+        "\\)"))
 
-(defconst hue-keywords-proof-goal '("proof" "equiv"))
+(defconst hue-keywords-proof-goal '("proof"))
 (defconst hue-keywords-proof-save '("save" "qed"))
 
 (defconst hue-non-undoables-regexp "^pragma\\b")
@@ -36,8 +42,7 @@
   (concat "^\\(" (proof-ids-to-regexp hue-keywords-proof-save) "\\)\\b"))
 
 (defconst hue-goal-command-regexp
-  (concat "^\\(?:local\\s-+\\)?\\(?:" (proof-ids-to-regexp hue-keywords-proof-goal) "\\)"
-          "\\s-+\\(?:nosmt\\s-+\\)?\\(\\sw+\\)"))
+  (concat "^\\(" (proof-ids-to-regexp hue-keywords-proof-goal) "\\)"))
 
 (defun hue-save-command-p (span str)
   "Decide whether argument is a [save|qed] command or not"
