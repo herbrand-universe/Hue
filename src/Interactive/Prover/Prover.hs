@@ -37,60 +37,76 @@ identifier = Tok.identifier lexer
 
 intronT = do reserved "intro"
              id <- identifier
+             eof
              return $ Tac (Intro $ Just id)
 
 introT = do reserved "intro"
+            eof
             return $ Tac (Intro Nothing)
 
 admitT = do reserved "admit"
+            eof
             return $ Tac Admit
 
 applynT = do reserved "apply"
              t <- cocast 
+             eof
              return $ Tac (Apply (toDeBruijn t, Nothing))
 
 applyT = do reserved "apply"
             t <- cocast
             reserved "with"
             t' <- cocast
+            eof
             return $ Tac (Apply (toDeBruijn t,Just $ toDeBruijn t))
  
 assumptionT = do reserved "assumption"
+                 eof
                  return $ Tac Assumption
 
 exactT = do reserved "exact"
             t <- cocast
+            eof
             return $ Tac (Exact (toDeBruijn t))
 
 splitT = do reserved "split"
+            eof
             return $ Tac Split
 
 leftT= do reserved "left"
+          eof
           return $ Tac LeftT 
 
 rightT = do reserved "right"
+            eof
             return $ Tac RightT
 
 elimT = do reserved "elim"
            id <- identifier
+           eof
            return $ Tac (Elim id)
 
 unfoldT = do reserved "unfold"
              id <- identifier
+             eof
              return $ Tac (Unfold id)
 
 absurdT = do reserved "absurd"
              id <- identifier
+             eof
              return $ Tac (Absurd id)
 
 cutT = do reserved "cut"
           t <- cocast
+          eof
           return $ Tac (Cut(toDeBruijn t))
 
 killC = do reserved "kill"
+           eof
            return Kill
            
 qedC = do reserved "qed"
+          eof
           return Qed
            
 tactic = try intronT <|> introT <|> admitT <|> try applyT <|> applynT 

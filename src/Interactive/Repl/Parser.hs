@@ -12,7 +12,7 @@ import Format.Parser
 
 lexer :: Tok.TokenParser ()
 lexer = Tok.makeTokenParser style
-  where ops   = ["="]
+  where ops   = ["=", ":"]
         names = [":quit", ":type", ":conv", ":load", ":undo", "proof", "var", "is","def", "import", ";"]
         style = emptyDef {Tok.reservedOpNames = ops,
                           Tok.reservedNames = names,
@@ -57,9 +57,8 @@ convC = do reserved ":conv"
            
 proofC = do reserved "proof"
             id <- identifier
-            reserved "is"
+            reservedOp ":"
             t <- cocast
-            reserved ";"
             eof
             return $ Proof id t
      
@@ -73,21 +72,19 @@ loadC = do reserved ":load"
            eof
            return $ Load fp
 
-defC = do reserved "def"
+defC = do reserved "define"
           id <- identifier
-          reserved "is"
-          t <- cocast
           reservedOp "="
           ty <- cocast
-          reserved ";"
+          reservedOp ":"
+          t <- cocast
           eof
           return $ Def id t ty
 
-varC = do reserved "var"
+varC = do reserved "assume"
           id <- identifier
-          reserved "is"
+          reservedOp ":"
           t <- cocast
-          reserved ";"
           eof
           return $ Var id t
 
