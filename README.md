@@ -8,7 +8,7 @@ ToDo:
 - [ ] Estandarizar errores con una regexp
 - [x] Agregar comando undo, que hace pop de la última modificacion de estado
 - [x] Agregar comando undo_n, que hace n-pops sobre el contexto
-- [ ] Agregar comando por borrar una prueba.
+- [x] Agregar comando por borrar una prueba (kill).
 - [ ] Agregar comando para reiniciar hue, vuelve al estado inicial.
 - [ ] Definir familias de comandos para PG, asi lo aislamos. Onda 'PG Restart', 'PG Undo' , 'PG Cd', 'PG Path', etc
 - [ ] Hacer andar el proofgeneral
@@ -17,17 +17,17 @@ Comandos:
 ---
 - :load [< archivo >]
 - :type < Term >
-- :undo < Integer >
+- pragma_undo < Integer >
 - :conv < Term > = < Term >
 - :quit
 
 Lenguaje:
 ---
 - import ;
-- def < name > is < Type > = < Term >;
-- var < name > is < Type >;
-- proof < name > is < Term >;
-- qed;
+- define < name > = < Term > : < Type >
+- assume < name > : < Type >;
+- proof < name > : < Term >
+- qed
 
 Terminos (Tipos)
 ---
@@ -44,14 +44,14 @@ data CoCT =
 
 Tacticas:
 ---
-- intro ;
-- assumption ;
-- exact < Term >;
-- apply ;
-- left ;
-- right ;
-- elim ;
-- unfold ;
+- intro 
+- assumption 
+- exact < Term >
+- apply 
+- left 
+- right 
+- elim 
+- unfold 
 
 Uso stack:
 ---
@@ -91,7 +91,7 @@ Agregar la siguiente linea en el archivo ~/.emacs
 
 Instalar el modulo de Hue en Proof General
 ---
-Agregar la siguiente linea en <proof-general-home>/generic/proof-site.el
+Agregar la siguiente linea en < proof-general-home > /generic/proof-site.el
 adentro de la definición de `proof-assistant-table-default':
 
 ```emacs
