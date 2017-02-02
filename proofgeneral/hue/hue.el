@@ -12,6 +12,9 @@
 (require 'hue-abbrev)
 
 
+(setq unicode-tokens-mode 1)
+
+
 (add-to-list 'hs-special-modes-alist
   '(hue-mode "{" "}" "/[*/]" nil nil))
 
@@ -72,8 +75,7 @@ this list are strings."
   "Configure Proof General scripting for Hue."
   (hue-init-output-syntax-table)
   
-  (setq  proof-terminal-string                 hue-terminal-string)
-  (setq  proof-script-command-end-regexp       hue-command-end-regexp)
+  (setq  proof-script-command-start-regexp     hue-command-start-regexp)
 
   (setq  proof-script-comment-start            "(*"
          proof-script-comment-end              "*)")
@@ -94,8 +96,8 @@ this list are strings."
          proof-goal-with-hole-regexp           hue-goal-command-regexp
          proof-goal-with-hole-result           1)
 
-  (setq  proof-goal-command                    "proof %s: ."
-         proof-save-command                    "qed;")
+  (setq  proof-goal-command                    "proof %s: "
+         proof-save-command                    "qed")
   
   (setq  proof-prog-name                       hue-prog-name
          proof-assistant-home-page             hue-web-page)
@@ -132,16 +134,16 @@ this list are strings."
 (defun hue-shell-config ()
   "Configure Proof General shell for Hue."
   (hue-init-output-syntax-table)
-  (setq  proof-shell-auto-terminate-commands    hue-terminal-string)
+  (setq  proof-shell-auto-terminate-commands    nil)
   (setq  proof-shell-eager-annotation-start
      (concat "\\(?:^\\[W\\] *\\)\\|\\(?:" hue-shell-proof-completed-regexp "\\)"))
   (setq  proof-shell-strip-crs-from-input       nil)
-  (setq  proof-shell-annotated-prompt-regexp    "Huetop")
+  (setq  proof-shell-annotated-prompt-regexp    "Huetop\\[[0-9]+\\]#")
   (setq  proof-shell-clear-goals-regexp         hue-shell-proof-completed-regexp)
   (setq  proof-shell-proof-completed-regexp     hue-shell-proof-completed-regexp)
-  (setq  proof-shell-error-regexp               "^\\[ERROR\\]")
+  (setq  proof-shell-error-regexp               "\\[ERROR\\]")
   (setq  proof-shell-truncate-before-error      nil)
-  (setq  proof-shell-start-goals-regexp         "^Current")
+  (setq  proof-shell-start-goals-regexp         "^Right")
   (setq  proof-shell-end-goals-regexp           nil)  ; up to next prompt
   (setq  proof-shell-font-lock-keywords         hue-font-lock-keywords))
 

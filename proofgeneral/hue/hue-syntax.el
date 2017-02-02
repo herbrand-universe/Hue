@@ -11,8 +11,7 @@
 
 (defconst hue-id "[A-Za-z_]+")
 
-(defconst hue-terminal-string    ";")
-(defconst hue-command-end-regexp ";")
+(defconst hue-command-start-regexp "\\(assume\\|define\\|proof\\|qed\\|intro\\|assumption\\|exact\\|apply\\)")
 
 (defconst hue-keywords-proof-goal '("proof" "equiv"))
 (defconst hue-keywords-proof-save '("save" "qed"))

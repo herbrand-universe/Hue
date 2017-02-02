@@ -13,7 +13,7 @@
 
 ;; Proof mode
 (defun hue-proof-weak-mode-toggle ()
-  "Toggle EasyCrypt check mode."
+  "Toggle Hue check mode."
   (interactive)
   (cond
      (hue-proof-weak-mode
