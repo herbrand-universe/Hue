@@ -12,6 +12,7 @@
 (require 'hue-abbrev)
 
 
+(setq proof-general-debug 1)
 (setq unicode-tokens-mode 1)
 
 
@@ -45,18 +46,6 @@ this list are strings."
   :group 'hue-config)
 
 ;; --------------------------------------------------------------------
-(defun hue-option-of-load-path-entry (entry)
-  (list "-I" (expand-file-name entry)))
-
-;; --------------------------------------------------------------------
-(defun hue-include-options ()
-  (let ((result nil))
-    (when hue-load-path
-      (dolist (entry hue-load-path)
-        (setq result (append result (hue-option-of-load-path-entry entry)))))
-    result))
-
-;; --------------------------------------------------------------------
 ;;(defun hue-build-prog-args ()
 ;;  (delete "-emacs" hue-prog-args)
 ;;  (push "-emacs" hue-prog-args))
@@ -64,10 +53,6 @@ this list are strings."
 ;;(hue-build-prog-args)
 
 ;; --------------------------------------------------------------------
-(defun hue-prog-args ()
-  (message "%s" hue-load-path)
-  (append hue-prog-args (hue-include-options)))
-
 ;; --------------------------------------------------------------------
 ;; Generic mode
 
@@ -136,8 +121,6 @@ this list are strings."
   "Configure Proof General shell for Hue."
   (hue-init-output-syntax-table)
   (setq  proof-shell-auto-terminate-commands    nil)
-  (setq  proof-shell-eager-annotation-start
-     (concat "\\(?:^\\[W\\] *\\)\\|\\(?:" hue-shell-proof-completed-regexp "\\)"))
   (setq  proof-shell-strip-crs-from-input       nil)
   (setq  proof-shell-annotated-prompt-regexp    "Huetop\\[[0-9]+\\]#")
   (setq  proof-shell-clear-goals-regexp         hue-shell-proof-completed-regexp)
@@ -216,36 +199,12 @@ this list are strings."
 (defun hue-redisplay-hook ()
   (hue-redisplay))
 
-(add-hook 'proof-shell-handle-error-or-interrupt-hook
-          'hue-highlight-error-hook t)
-
-;; --------------------------------------------------------------------
-(defun hue-ask-do (do)
-  (let* ((cmd))
-    (setq cmd (read-string (format "Term for `%s': " do)))
-    (proof-shell-ready-prover)
-    (proof-shell-invisible-command (format " %s %s . " do cmd))))
-
-;; --------------------------------------------------------------------
-(defun hue-Print ()
-  "Ask for a term and print its type."
-  (interactive)
-  (hue-ask-do "print"))
-
-;; --------------------------------------------------------------------
-(defun hue-Check ()
-  (hue-Print))
+;;(add-hook 'proof-shell-handle-error-or-interrupt-hook
+;;          'hue-highlight-error-hook t)
 
 ;; --------------------------------------------------------------------
 ;; Key bindings
 
-(define-key hue-keymap "\C-p" 'hue-Print)
-(define-key hue-goals-mode-map "\C-c\C-a\C-p" 'hue-Print)
-(define-key hue-response-mode-map "\C-c\C-a\C-p" 'hue-Print)
-
-(define-key hue-keymap "\C-c" 'hue-Check)
-(define-key hue-goals-mode-map "\C-c\C-a\C-c" 'hue-Check)
-(define-key hue-response-mode-map "\C-c\C-a\C-c" 'hue-Check)
 
 ;; --------------------------------------------------------------------
 ;; 3-window pane layout hack
