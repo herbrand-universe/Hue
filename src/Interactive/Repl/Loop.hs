@@ -56,8 +56,11 @@ eval (Def s ast ast') = do ctx <- lift get
                                            lift $ put $ c
                              Nothing -> outputStrLn "[ERROR] Type error."
                            return True
-eval (Load s) = do c <- liftIO $ try (readFile s) >>= handleRead
-                   mapM ((>>= eval) . proc) (lines c)
+eval (Load s) = do ctx <- lift get
+                   ((), ctx') <- liftIO $ runStateT (runInputTBehavior (useFile s) defaultSettings loop) ctx
+                   lift (put ctx')
+                        --try (readFile s) >>= handleRead
+                   -- mapM ((>>= eval) . proc) (lines c)
                    return True
 eval (Import s) = do c <- liftIO $ readFile s
                      mapM ((>>= eval) . proc) (lines c)
@@ -79,6 +82,7 @@ serialEval (s:ss) = case proc s of
                       t -> do eval t
                               serialEval ss
 -}
+loop :: InputT (StateT SContext IO) ()
 loop = do c <- read
           b <- eval c
           case b of

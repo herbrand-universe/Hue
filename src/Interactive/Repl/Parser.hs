@@ -16,6 +16,8 @@ lexer = Tok.makeTokenParser style
         names = [":quit", ":type", ":conv", ":load", ":undo", "proof", "var", "is","def", "import", ";"]
         style = emptyDef {Tok.reservedOpNames = ops,
                           Tok.reservedNames = names,
+                          Tok.commentStart = "(*",
+                          Tok.commentEnd = "*)",
                           Tok.commentLine = "#"}
 
 reserved :: String -> Parser ()
