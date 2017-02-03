@@ -25,6 +25,8 @@ lexer = Tok.makeTokenParser style
                  "left", "right", "elim","unfold","absurd", "cut" , "with",
                  "qed", "kill"]
         style = emptyDef {Tok.reservedNames = names,
+                          Tok.commentStart = "(*",
+                          Tok.commentEnd = "*)",
                           Tok.commentLine = "#"}
 
 reserved :: String -> Parser ()
@@ -32,6 +34,9 @@ reserved = Tok.reserved lexer
 
 identifier :: Parser String
 identifier = Tok.identifier lexer
+
+whitespace :: Parser ()
+whitespace = Tok.whiteSpace lexer
 
 -- Parser
 
@@ -113,7 +118,7 @@ tactic = try intronT <|> introT <|> admitT <|> try applyT <|> applynT
          <|> assumptionT <|> exactT <|> splitT  <|> leftT <|> rightT 
          <|> elimT <|> unfoldT <|> absurdT <|> cutT <|> qedC <|> killC
 
-parseTactic = parse tactic "<prover>"
+parseTactic = parse (whitespace >> tactic) "<prover>"
 
 -- REPL
 
