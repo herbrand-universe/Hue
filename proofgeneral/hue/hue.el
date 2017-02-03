@@ -121,7 +121,7 @@ this list are strings."
   "Configure Proof General shell for Hue."
   (hue-init-output-syntax-table)
   (setq  proof-shell-auto-terminate-commands    nil)
-  (setq  proof-shell-strip-crs-from-input       nil)
+  (setq  proof-shell-strip-crs-from-input       t)
   (setq  proof-shell-annotated-prompt-regexp    "Huetop\\[[0-9]+\\]#")
   (setq  proof-shell-clear-goals-regexp         hue-shell-proof-completed-regexp)
   (setq  proof-shell-proof-completed-regexp     hue-shell-proof-completed-regexp)

@@ -14,6 +14,7 @@
 (defconst hue-command-start-regexp 
     (concat 
         "\\("
+        "(\*"
         (proof-ids-to-regexp hue-global-keywords)
         "\\|"
         (proof-ids-to-regexp hue-tactic-keywords)
